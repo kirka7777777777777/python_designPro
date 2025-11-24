@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Design.pro</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Главная</a>
+        {% if user.is_authenticated %}
+            <span>Привет, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}">Выход</a>
+        {% else %}
+            <a href="{% url 'login' %}">Вход</a>
+            <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
