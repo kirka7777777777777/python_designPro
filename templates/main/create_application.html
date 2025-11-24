@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Создание новой заявки</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div style="margin-bottom: 15px;">
+        <label for="id_title">Название:</label>
+        {{ form.title }}
+        {% if form.title.errors %}
+            <div style="color: red;">{{ form.title.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="id_description">Описание:</label>
+        {{ form.description }}
+        {% if form.description.errors %}
+            <div style="color: red;">{{ form.description.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="id_category">Категория:</label>
+        {{ form.category }}
+        {% if form.category.errors %}
+            <div style="color: red;">{{ form.category.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="id_image">Изображение помещения (jpg, jpeg, png, bmp, до 2MB):</label>
+        {{ form.image }}
+        {% if form.image.errors %}
+            <div style="color: red;">{{ form.image.errors }}</div>
+        {% endif %}
+    </div>
+
+    <button type="submit" style="padding: 10px 20px; background: #007bff; color: white; border: none;">
+        Создать заявку
+    </button>
+    <a href="{% url 'profile' %}" style="margin-left: 10px; padding: 10px 20px; background: #6c757d; color: white; text-decoration: none;">
+        Отмена
+    </a>
+</form>
+
+{% endblock %}

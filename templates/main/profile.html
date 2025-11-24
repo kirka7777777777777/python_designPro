@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Личный кабинет</h2>
+<p>Добро пожаловать, {{ user.username }}!</p>
+
+<h3>Мои заявки</h3>
+
+<!-- Фильтр по статусу -->
+<form method="get">
+    <label for="status">Фильтр по статусу:</label>
+    <select name="status" id="status" onchange="this.form.submit()">
+        <option value="">Все заявки</option>
+        <option value="new" {% if status_filter == 'new' %}selected{% endif %}>Новые</option>
+        <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>В работе</option>
+        <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Выполненные</option>
+    </select>
+</form>
+
+{% if applications %}
+    <table border="1" style="width: 100%; margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Категория</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in applications %}
+            <tr>
+                <td>{{ app.created_at|date:"d.m.Y H:i" }}</td>
+                <td>{{ app.title }}</td>
+                <td>{{ app.description }}</td>
+                <td>{{ app.category.name }}</td>
+                <td>
+                    {% if app.status == 'new' %}
+                        <span style="color: blue;">Новая</span>
+                    {% elif app.status == 'in_progress' %}
+                        <span style="color: orange;">В работе</span>
+                    {% else %}
+                        <span style="color: green;">Выполнено</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if app.status == 'new' %}
+                        <a href="{% url 'delete_application' app.pk %}"
+                           onclick="return confirm('Удалить заявку?')"
+                           style="color: red;">Удалить</a>
+                    {% else %}
+                        <span style="color: gray;">Удаление недоступно</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>У вас пока нет заявок.</p>
+{% endif %}
+
+<a href="{% url 'create_application' %}" style="display: inline-block; margin-top: 20px; padding: 10px; background: #007bff; color: white; text-decoration: none;">
+    Создать новую заявку
+</a>
+{% endblock %}
