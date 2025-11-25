@@ -42,7 +42,7 @@
                     {% elif app.status == 'in_progress' %}
                         <span style="color: orange;">В работе</span>
                     {% else %}
-                        <span style="color: green;">Выполнено</span>
+                        <span style="color: #0dd10d;">Выполнено</span>
                     {% endif %}
                 </td>
                 <td>
@@ -51,7 +51,7 @@
                            onclick="return confirm('Удалить заявку?')"
                            style="color: red;">Удалить</a>
                     {% else %}
-                        <span style="color: gray;">Удаление недоступно</span>
+                        <span style="color: black;">Удаление недоступно</span>
                     {% endif %}
                 </td>
             </tr>

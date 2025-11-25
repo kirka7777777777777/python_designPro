@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>🗑️ Подтверждение удаления</h2>
+
+    <div class="alert alert-info">
+        <p>Вы действительно хотите удалить заявку <strong>"{{ application.title }}"</strong>?</p>
+        <p><strong>Категория:</strong> {{ application.category.name }}</p>
+        <p><strong>Дата создания:</strong> {{ application.created_at|date:"d.m.Y H:i" }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

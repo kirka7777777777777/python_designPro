@@ -1,6 +1,73 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Добро пожаловать в Design.pro!</h1>
-<p>Главная страница дизайн-студии</p>
+<div class="card">
+    <h1>🎨 Добро пожаловать в Design.pro!</h1>
+    <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem;">Студия дизайна интерьеров</p>
+
+    <div class="grid">
+        <div class="feature-card">
+            <h3>🏠 Создайте заявку</h3>
+            <p>Загрузите план помещения и получите профессиональный дизайн</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Отслеживайте статус</h3>
+            <p>Следите за выполнением вашей заявки в реальном времени</p>
+        </div>
+        <div class="feature-card">
+            <h3>⭐ Готовые работы</h3>
+            <p>Вдохновляйтесь реализованными проектами нашей студии</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>🚀 Активные проекты</h2>
+        <div style="background: #764ba2; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold;">
+            В работе: {{ in_progress_count }}
+        </div>
+    </div>
+</div>
+
+{% if completed_applications %}
+<div class="card">
+    <h2>🎉 Последние выполненные работы</h2>
+    <div class="grid">
+        {% for app in completed_applications %}
+        <div class="feature-card">
+            {% if app.image %}
+                <img src="{{ app.image.url }}"
+                     alt="{{ app.title }}"
+                     style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem;">
+            {% else %}
+                <div style="width: 100%; height: 200px; background: #f0f0f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                    <span>📷 Нет изображения</span>
+                </div>
+            {% endif %}
+
+            <h4>{{ app.title }}</h4>
+            <p><strong>Категория:</strong> {{ app.category.name }}</p>
+            <p><strong>Дата:</strong> {{ app.created_at|date:"d.m.Y" }}</p>
+
+            {% if app.design_image %}
+                <p><strong>Результат:</strong></p>
+                <img src="{{ app.design_image.url }}"
+                     alt="Дизайн {{ app.title }}"
+                     style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #764ba2;">
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div style="text-align: center; margin-top: 2rem;">
+    {% if user.is_authenticated %}
+        <a href="{% url 'create_application' %}" class="btn">➕ Создать новую заявку</a>
+    {% else %}
+        <a href="{% url 'register' %}" class="btn">🚀 Начать работу</a>
+    {% endif %}
+</div>
 {% endblock %}
